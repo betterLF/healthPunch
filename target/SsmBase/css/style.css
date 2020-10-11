@@ -1,0 +1,70 @@
+<!-- 设置网页的默认边距，统一样式 -->
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    /*background-color: rgb(245,245,245);*/
+    background-color: darkgray;
+}
+.container{
+    width: 814px;
+    background-color: white;
+    /*打卡表自动对齐，并且上方右20px的空白*/
+    margin: 20px auto;
+}
+.container img{
+    width: 100%;
+}
+.content{
+    width: 100%;
+    height: 1000px;
+    background-color: white;
+}
+.content h3{
+    margin-left: 25px;
+}
+.content p{
+    margin-top: 20px;
+    margin-left: 25px;
+}
+hr{
+    margin: 20px 0;
+    background-color: seagreen;
+    height: 4px;
+}
+.row{
+    width: 784px;
+    height: 36px;
+    padding: 0 0 0 5px;
+    margin-left: 25px;
+}
+.input_row{
+    width: 784px;
+    height: 50px;
+    padding: 0 0 0 5px;
+    margin-left: 25px;
+}
+form span{
+    color: red;
+}
+input[type="text"],input[type="date"]{
+    height: 27px;
+    border: 1px solid #dbdbdb;
+}
+.multiple_row{
+    width: 784px;
+    height: 4px;
+    padding: 0 0 80px 5px;
+    margin-left: 25px;
+}
+button{
+    width: 90%;
+    height: 37px;
+    background-color: #53a4f4;
+    border: none;
+    color: white;
+    border-radius:5px ;
+    margin-left: 40.7px;
+}
