@@ -50,7 +50,7 @@ function checkForm() {
             return false;
         }
     }
-    if(fever[0].checked){
+    if(situation[0].checked){
         if(situationDetail==""){
             alert("请描述需要注意的情况");
             return false;

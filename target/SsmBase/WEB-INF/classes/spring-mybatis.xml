@@ -17,7 +17,7 @@
     <context:component-scan base-package="health.service" />
     <context:component-scan base-package="health.mapper"/>
     <!--2 加载数据资源属性文件 -->
-    <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
+<!--    <context:property-placeholder location="classpath:jdbc.properties"/>-->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:jdbc.properties" />
@@ -69,4 +69,24 @@
 
     <!-- 配置基于注解的声明式事务 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+<!--
+配置增强通知
+-->
+    <tx:advice id="TestAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="del*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="find*" propagation="REQUIRED"/>
+            <tx:method name="get*" propagation="REQUIRED"/>
+            <tx:method name="apply*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--  配置参与事务的类 -->
+    <aop:config>
+        <aop:pointcut id="allTestServiceMethod" expression="execution(* health.service.*.*(..))"/>
+        <aop:advisor pointcut-ref="allTestServiceMethod" advice-ref="TestAdvice" />
+    </aop:config>
 </beans>

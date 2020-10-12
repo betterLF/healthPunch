@@ -34,6 +34,7 @@
     <mvc:resources mapping="/css/**" location="/css/" cache-period="2592000" />
     <mvc:resources mapping="/js/**" location="/js/" cache-period="31536000" />
     <mvc:resources mapping="/img/**" location="/img/" cache-period="31536000" />
+    <mvc:resources mapping="/layui-v2.5.6/**" location="/layui-v2.5.6/"></mvc:resources>
 <!--    <mvc:resources mapping="/xml/**" location="/xml/" cache-period="31536000" />-->
     <!-- 静态资源可访问的设置方式 -->
     <mvc:default-servlet-handler />
@@ -70,7 +71,7 @@
         <property name="resolveLazily" value="true"/>
     </bean>
 
-    <!-- 配置ViewResolver 。可用多个ViewResolver 。使用order属性排序。   InternalResourceViewResolver 放在最后-->
+<!--     配置ViewResolver 。可用多个ViewResolver 。使用order属性排序。   InternalResourceViewResolver 放在最后-->
     <bean
             class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="viewResolvers">

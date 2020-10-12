@@ -12,8 +12,8 @@
       <arg column="feverDetail" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="contact" javaType="java.lang.Boolean" jdbcType="BIT" />
       <arg column="contactDetail" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="condition" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="conditionDetail" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="situation" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="situationDetail" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -108,6 +108,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+
+
+
+
+
+
+
   <insert id="insert" parameterType="health.model.student">
     insert into student (uploadDate, studentName, classId, 
       telephone, temperature, fever, 
@@ -118,6 +125,18 @@
       #{feverDetail,jdbcType=VARCHAR}, #{contact,jdbcType=BIT}, #{contactDetail,jdbcType=VARCHAR},
     #{situation,jdbcType=BIT}, #{situationDetail,jdbcType=VARCHAR})
   </insert>
+  <select id="getAllStudents" parameterType="health.model.student" resultMap="BaseResultMap">
+    select * from student
+  </select>
+  <delete id="delByDateAndTelephone" parameterType="health.bean.delList">
+      delete from student
+      where
+    <foreach collection="delList"  item="item" separator=" or " index="index">
+      (uploadDate = #{item.uploadDate} and  telephone = #{item.telephone})
+    </foreach>
+  </delete>
+
+
   <insert id="insertSelective" parameterType="health.model.student">
     insert into student
     <trim prefix="(" suffix=")" suffixOverrides=",">

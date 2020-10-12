@@ -35,16 +35,16 @@ public class submitController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-    @RequestMapping(value = "/health_punch",method = RequestMethod.GET)
+    @RequestMapping(value = "/healthPunch",method = RequestMethod.GET)
     public String InStu(student student){
         System.out.println(student.toString());
-        return "/WEB-INF/health_punch";
+        return "";
     }
 
-    @RequestMapping(value = "/health_punch",method = RequestMethod.POST)
+    @RequestMapping(value = "/healthPunch",method = RequestMethod.POST)
     public String InsertStu(@ModelAttribute student student){
         System.out.println(student.toString());
         stuService.insert(student);
-        return "hello";
+        return "healthpunch";
     }
 }

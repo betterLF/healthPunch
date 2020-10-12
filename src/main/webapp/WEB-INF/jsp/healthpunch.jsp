@@ -22,13 +22,14 @@
 <div class="container">
     <!-- log图 -->
     <img src="img/南邮.jpg">
+<%--    <a href="back.jsp">wiai</a>--%>
     <!-- 内容区 -->
     <div class="content">
         <h3>南邮学生体温每日登记表</h3>
         <p>为了做好新冠状病毒感染肺炎的防控，请每日如实填写身体健康情况，谢谢配合。</p>
         <hr>
         <!-- 表单 -->
-        <form action="/health_punch" method="post" onsubmit="return checkForm()" >
+        <form action="/healthPunch" method="post" onsubmit="return checkForm()" >
 <%--            <input type="hidden" name="_method" value="PUT">--%>
     <div class="row">
         填报日期 <span>*</span>

@@ -1,0 +1,82 @@
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="delete">删除选中行数据</button>
+    </div>
+</script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#test'//这里指的是table的id
+            ,url:'/stu/stuList'
+            ,toolbar:'#toolbarDemo'
+            ,type:""
+            ,page:true
+            ,cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'uploadDate', title: '日期',sort: true,  templet :function (row){
+                        return uploadDate(row.uploadDate);
+                    }
+                }
+                ,{field: 'studentName', title: '姓名'}
+                ,{field: 'classId', title: '班级' }
+                ,{field: 'telephone', title: '电话'}
+                ,{field: 'temperature', title: '体温'}
+                ,{field: 'fever', title: '症状'}
+                ,{field: 'feverDetail', title: '症状详情'}
+                ,{field: 'contact', title: '接触'}
+                ,{field: 'contactDetail', title: '接触详情'}
+                ,{field: 'situation', title: '情况'}
+                ,{field: 'situationDetail', title: '情况详情'}
+            ]]
+        });
+        //这里的test指的是table的lay-filter
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus("test");//这里的test指的是table的id
+            switch(obj.event) {
+                case 'delete':
+                    var data = checkStatus.data;//当前选中数据
+                    if(data.length>0){
+                        layer.confirm("确定删除吗",function (index) {
+                            $.ajax({
+                                type: 'POST',
+                                url: "stu/delByDateAndTelephone",
+                                data:JSON.stringify(data),
+                                dataType: 'json',
+                                contentType:'application/json',
+                                success: function (result) {
+                                    if (result.status) {
+                                        table.reload('test', {})//重新加载数据
+                                    } else {
+                                        alert(result.msg)
+                                    }
+                                }
+                            })
+                                    layer.close(index)
+                                })
+                        }
+                    break;
+            };
+        });
+    });
+</script>
+
+
+
+<script type="text/javascript">
+
+    function uploadDate(v){
+        return new Date(parseInt(v)).toLocaleString()
+    }
+    /**重写toLocaleString方法*/
+    Date.prototype.toLocaleString = function() {
+        var y = this.getFullYear();
+        var m = this.getMonth()+1;
+        m = m<10?'0'+m:m;
+        var d = this.getDate();
+        d = d<10?("0"+d):d;
+        return y+"-"+m+"-"+d;
+    };
+</script>
