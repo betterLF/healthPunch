@@ -16,105 +16,6 @@
       <arg column="situationDetail" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    uploadDate, studentName, classId, telephone, temperature, fever, feverDetail, contact, 
-    contactDetail, condition, conditionDetail
-  </sql>
-  <select id="selectByExample" parameterType="health.model.studentExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from student
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.util.Date" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from student
-    where uploadDate = #{uploaddate,jdbcType=DATE}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.util.Date">
-    delete from student
-    where uploadDate = #{uploaddate,jdbcType=DATE}
-  </delete>
-  <delete id="deleteByExample" parameterType="health.model.studentExample">
-    delete from student
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-
-
-
-
-
-
-
   <insert id="insert" parameterType="health.model.student">
     insert into student (uploadDate, studentName, classId, 
       telephone, temperature, fever, 
@@ -125,9 +26,25 @@
       #{feverDetail,jdbcType=VARCHAR}, #{contact,jdbcType=BIT}, #{contactDetail,jdbcType=VARCHAR},
     #{situation,jdbcType=BIT}, #{situationDetail,jdbcType=VARCHAR})
   </insert>
+
   <select id="getAllStudents" parameterType="health.model.student" resultMap="BaseResultMap">
     select * from student
   </select>
+
+  <select id="getStudents_fever" parameterType="health.model.student" resultMap="BaseResultMap">
+    select * from student where fever=true
+  </select>
+
+  <select id="getStudents_contact" parameterType="health.model.student" resultMap="BaseResultMap">
+    select * from student where contact=true
+  </select>
+
+  <select id="getStudents_situation" parameterType="health.model.student" resultMap="BaseResultMap">
+    select * from student  where  situation=true
+  </select>
+
+
+
   <delete id="delByDateAndTelephone" parameterType="health.bean.delList">
       delete from student
       where
@@ -136,192 +53,28 @@
     </foreach>
   </delete>
 
+  <insert id="insertPseudoData" parameterType="health.bean.delList">
 
-  <insert id="insertSelective" parameterType="health.model.student">
-    insert into student
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="uploaddate != null">
-        uploadDate,
-      </if>
-      <if test="studentname != null">
-        studentName,
-      </if>
-      <if test="classid != null">
-        classId,
-      </if>
-      <if test="telephone != null">
-        telephone,
-      </if>
-      <if test="temperature != null">
-        temperature,
-      </if>
-      <if test="fever != null">
-        fever,
-      </if>
-      <if test="feverdetail != null">
-        feverDetail,
-      </if>
-      <if test="contact != null">
-        contact,
-      </if>
-      <if test="contactdetail != null">
-        contactDetail,
-      </if>
-      <if test="condition != null">
-        condition,
-      </if>
-      <if test="conditiondetail != null">
-        conditionDetail,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="uploaddate != null">
-        #{uploaddate,jdbcType=DATE},
-      </if>
-      <if test="studentname != null">
-        #{studentname,jdbcType=VARCHAR},
-      </if>
-      <if test="classid != null">
-        #{classid,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null">
-        #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="temperature != null">
-        #{temperature,jdbcType=VARCHAR},
-      </if>
-      <if test="fever != null">
-        #{fever,jdbcType=BIT},
-      </if>
-      <if test="feverdetail != null">
-        #{feverdetail,jdbcType=VARCHAR},
-      </if>
-      <if test="contact != null">
-        #{contact,jdbcType=BIT},
-      </if>
-      <if test="contactdetail != null">
-        #{contactdetail,jdbcType=VARCHAR},
-      </if>
-      <if test="condition != null">
-        #{condition,jdbcType=BIT},
-      </if>
-      <if test="conditiondetail != null">
-        #{conditiondetail,jdbcType=VARCHAR},
-      </if>
-    </trim>
+    insert into student (uploadDate, studentName, classId,
+      telephone, temperature, fever,
+      feverDetail, contact, contactDetail,
+     situation, situationDetail)
+    values
+    <foreach collection="delList"  item="item" separator=" , " index="index">
+      (#{item.uploadDate},#{item.studentName},#{item.classId},
+      #{item.telephone},#{item.temperature},#{item.fever},
+      #{item.feverDetail},#{item.contact},#{item.contactDetail},
+      #{item.situation},#{item.situation},#{item.situationDetail}
+      )
+    </foreach>
   </insert>
-  <select id="countByExample" parameterType="health.model.studentExample" resultType="java.lang.Long">
-    select count(*) from student
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
+
+  <select id="getStudentsByClassId" parameterType="health.model.student" resultMap="BaseResultMap">
+    select * from student where classId=#{classId,jdbcType=VARCHAR}
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update student
-    <set>
-      <if test="record.uploaddate != null">
-        uploadDate = #{record.uploaddate,jdbcType=DATE},
-      </if>
-      <if test="record.studentname != null">
-        studentName = #{record.studentname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.classid != null">
-        classId = #{record.classid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.telephone != null">
-        telephone = #{record.telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.temperature != null">
-        temperature = #{record.temperature,jdbcType=VARCHAR},
-      </if>
-      <if test="record.fever != null">
-        fever = #{record.fever,jdbcType=BIT},
-      </if>
-      <if test="record.feverdetail != null">
-        feverDetail = #{record.feverdetail,jdbcType=VARCHAR},
-      </if>
-      <if test="record.contact != null">
-        contact = #{record.contact,jdbcType=BIT},
-      </if>
-      <if test="record.contactdetail != null">
-        contactDetail = #{record.contactdetail,jdbcType=VARCHAR},
-      </if>
-      <if test="record.condition != null">
-        condition = #{record.condition,jdbcType=BIT},
-      </if>
-      <if test="record.conditiondetail != null">
-        conditionDetail = #{record.conditiondetail,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update student
-    set uploadDate = #{record.uploaddate,jdbcType=DATE},
-      studentName = #{record.studentname,jdbcType=VARCHAR},
-      classId = #{record.classid,jdbcType=VARCHAR},
-      telephone = #{record.telephone,jdbcType=VARCHAR},
-      temperature = #{record.temperature,jdbcType=VARCHAR},
-      fever = #{record.fever,jdbcType=BIT},
-      feverDetail = #{record.feverdetail,jdbcType=VARCHAR},
-      contact = #{record.contact,jdbcType=BIT},
-      contactDetail = #{record.contactdetail,jdbcType=VARCHAR},
-      condition = #{record.condition,jdbcType=BIT},
-      conditionDetail = #{record.conditiondetail,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="health.model.student">
-    update student
-    <set>
-      <if test="studentname != null">
-        studentName = #{studentname,jdbcType=VARCHAR},
-      </if>
-      <if test="classid != null">
-        classId = #{classid,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null">
-        telephone = #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="temperature != null">
-        temperature = #{temperature,jdbcType=VARCHAR},
-      </if>
-      <if test="fever != null">
-        fever = #{fever,jdbcType=BIT},
-      </if>
-      <if test="feverdetail != null">
-        feverDetail = #{feverdetail,jdbcType=VARCHAR},
-      </if>
-      <if test="contact != null">
-        contact = #{contact,jdbcType=BIT},
-      </if>
-      <if test="contactdetail != null">
-        contactDetail = #{contactdetail,jdbcType=VARCHAR},
-      </if>
-      <if test="condition != null">
-        condition = #{condition,jdbcType=BIT},
-      </if>
-      <if test="conditiondetail != null">
-        conditionDetail = #{conditiondetail,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where uploadDate = #{uploaddate,jdbcType=DATE}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="health.model.student">
-    update student
-    set studentName = #{studentname,jdbcType=VARCHAR},
-      classId = #{classid,jdbcType=VARCHAR},
-      telephone = #{telephone,jdbcType=VARCHAR},
-      temperature = #{temperature,jdbcType=VARCHAR},
-      fever = #{fever,jdbcType=BIT},
-      feverDetail = #{feverdetail,jdbcType=VARCHAR},
-      contact = #{contact,jdbcType=BIT},
-      contactDetail = #{contactdetail,jdbcType=VARCHAR},
-      condition = #{condition,jdbcType=BIT},
-      conditionDetail = #{conditiondetail,jdbcType=VARCHAR}
-    where uploadDate = #{uploaddate,jdbcType=DATE}
-  </update>
+
+  <select id="getStudentsByStudentName" parameterType="health.model.student" resultMap="BaseResultMap">
+    select * from student where studentName=#{studentName,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

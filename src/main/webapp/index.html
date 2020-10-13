@@ -47,9 +47,9 @@
                     <a class="" href="javascript:;">学生信息</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" onclick="showAllMessage('students.html')">全部信息</a></dd>
-                        <dd><a href="javascript:;">症状异常信息</a></dd>
-                        <dd><a href="javascript:;">接触异常信息</a></dd>
-                        <dd><a href="javascript:;">情况异常信息</a></dd>
+                        <dd><a href="javascript:;" onclick="showAllMessage('students_fever.html')">症状异常信息</a></dd>
+                        <dd><a href="javascript:;" onclick="showAllMessage('students_contact.html')">接触异常信息</a></dd>
+                        <dd><a href="javascript:;"onclick="showAllMessage('students_situation.html')">情况异常信息</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -75,6 +75,7 @@
 
     });
     function showAllMessage(url) {
+        alert("1111");
         $("#main").load(url);
     }
 </script>

@@ -1,29 +1,16 @@
 
-
-<div class="selectTable">
-    查询班级：
-    <div class="layui-inline">
-        <input class="layui-input" name="classIdReload" id="classIdReload" autocomplete="off" width="120px">
-    </div>
-    查询学生：
-    <div class="layui-inline">
-        <input class="layui-input" name="studentNameReload" id="studentNameReload" autocomplete="off" width="120px">
-    </div>
-    <button class="layui-btn" data-type="reload" id="select">查询</button>
-    <button class="layui-btn" data-type="reload" id="clear">清空</button>
-</div>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="delete">删除选中行数据</button>
     </div>
 </script>
-<table class="layui-hide" id="stuList" lay-filter="stuList"></table>
+<table class="layui-hide" id="stuList_contact" lay-filter="stuList_contact"></table>
 <script>
     layui.use('table', function(){
         var table = layui.table;
         table.render({
-            elem: '#stuList'//这里指的是table的id
-            ,url:'/stu/stuList'
+            elem: '#stuList_contact'//这里指的是table的id
+            ,url:'/stu/stuList_contact'
             ,toolbar:'#toolbarDemo'
             ,type:""
             ,page:true
@@ -45,8 +32,9 @@
                 ,{field: 'situationDetail', title: '情况详情'}
             ]]
         });
-        table.on('toolbar(stuList)', function(obj){
-            var checkStatus = table.checkStatus("stuList");
+        //这里的test指的是table的lay-filter
+        table.on('toolbar(stuList_contact)', function(obj){
+            var checkStatus = table.checkStatus("stuList_contact");//这里的test指的是table的id
             switch(obj.event) {
                 case 'delete':
                     var data = checkStatus.data;//当前选中数据
@@ -60,7 +48,7 @@
                                 contentType:'application/json',
                                 success: function (result) {
                                     if (result.status) {
-                                        table.reload('stuList', {})//重新加载数据
+                                        table.reload('stuList_contact', {})//重新加载数据
                                     } else {
                                         alert(result.msg)
                                     }
@@ -73,62 +61,9 @@
             };
         });
 
-        //根据条件进行查询
-        var $ = layui.$, active_select = {
-            reload: function(){
-                var classIdReload = $('#classIdReload');
-                var studentNameReload = $('#studentNameReload');
-                //执行重载
-                table.reload('stuList', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    ,where: {
-                        classId: classIdReload.val()
-                        ,studentName:studentNameReload.val()
-                    }
-                });
-            }
-        };
-
-        //点击查询按钮查询
-        $('#select').on('click',
-            function(){
-                var type = $(this).data('type');
-                active_select[type] ? active_select[type].call(this) : '';
-            });
-
-
-        //点击按钮进行清空
-        var $ = layui.$, active_clear = {
-            reload: function(){
-                //执行重载
-                var classIdReload = $('#classIdReload');
-                var studentNameReload = $('#studentNameReload');
-                table.reload('stuList', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    ,where: {
-                        classId: classIdReload.val()
-                        ,studentName:studentNameReload.val()
-                    }
-                });
-            }
-        };
-
-        $('#clear').on('click',
-            function(){
-                $('#classIdReload').val("");
-                $('#studentNameReload').val("");
-                var type = $(this).data('type');
-                active_clear[type] ? active_clear[type].call(this) : '';
-            });
     });
 
 </script>
-
-
 
 <script type="text/javascript">
 
